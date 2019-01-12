@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-private let apiEndpoint = "http://www.binlist.net/json/"
+private let apiEndpoint = "https://binlist.net/json/"
 
-public func find(bin: String, completionHandler: (data: String) -> Void) {
-    let url = NSURL(string: apiEndpoint + bin)
+public func find(bin: String, completionHandler: @escaping (_ data: String) -> Void) {
+    let url = URL(string: apiEndpoint + bin)
 
-    let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
-        let responseString = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
-        completionHandler(data: responseString)
+    let task = URLSession.shared.dataTask(with: url!) {(data, response, error) in
+        let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)! as String
+        completionHandler(responseString)
     }
 
     task.resume()
